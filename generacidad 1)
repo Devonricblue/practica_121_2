@@ -1,0 +1,58 @@
+//pseudocodigo
+Clase genérica Par<T1, T2>
+  Atributos:
+    primero: T1
+    segundo: T2
+
+  Métodos:
+    mostrar():
+      imprimir "Primero: " + primero + " - Segundo: " + segundo
+
+    sonIguales() -> Booleano:
+      retornar primero == segundo
+
+    tienenTiposIguales() -> Booleano:
+      retornar tipo(primero) == tipo(segundo)
+//java
+public class Par<T1, T2> {
+    T1 primero;
+    T2 segundo;
+
+    public Par(T1 primero, T2 segundo) {
+        this.primero = primero;
+        this.segundo = segundo;
+    }
+
+    public void mostrar() {
+        System.out.println("Primero: " + primero + " - Segundo: " + segundo);
+    }
+
+    public boolean sonIguales() {
+        return primero != null && primero.equals(segundo);
+    }
+
+    public boolean tienenTiposIguales() {
+        return primero != null && segundo != null &&
+               primero.getClass().equals(segundo.getClass());
+    }
+}
+//Main
+public class Main {
+    public static void main(String[] args) {
+        Par<Integer, Integer> par1 = new Par<>(10, 10);
+        Par<String, Double> par2 = new Par<>("Hola", 5.5);
+        Par<String, String> par3 = new Par<>("abc", "abc");
+
+        par1.mostrar();
+        System.out.println("¿Son iguales? " + par1.sonIguales());
+        System.out.println("¿Tienen tipos iguales? " + par1.tienenTiposIguales());
+
+        par2.mostrar();
+        System.out.println("¿Son iguales? " + par2.sonIguales());
+        System.out.println("¿Tienen tipos iguales? " + par2.tienenTiposIguales());
+
+        par3.mostrar();
+        System.out.println("¿Son iguales? " + par3.sonIguales());
+        System.out.println("¿Tienen tipos iguales? " + par3.tienenTiposIguales());
+    }
+}
