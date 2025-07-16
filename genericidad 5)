@@ -1,0 +1,190 @@
+//pseudocodigo
+Clase Publicacion:
+  - titulo
+  - anioPublicacion
+  - mostrarInfo()
+
+Subclases: Libro, Articulo, Tesis
+
+Libro:
+  - isbn
+  - editorial (asociación)
+  - autores (agregación)
+
+Articulo:
+  - revista
+  - volumen
+  - autores (agregación)
+
+Tesis:
+  - grado
+  - asesor (composición)
+  - autores (agregación)
+
+Clase Editorial:
+  - nombre
+  - pais
+
+Clase Autor:
+  - nombre
+  - correo
+  - mostrarAutor()
+
+Clase Repositorio<T>:
+  - lista : ArrayList<T>
+  - agregar(T item)
+  - eliminar(T item)
+  - mostrarTodo()
+
+//java superclase y subclase 
+abstract class Publicacion {
+    String titulo;
+    int anioPublicacion;
+    List<Autor> autores = new ArrayList<>();
+
+    public abstract void mostrarInfo();
+
+    public void agregarAutor(Autor autor) {
+        autores.add(autor);
+    }
+
+    public void mostrarAutores() {
+        for (Autor a : autores) {
+            a.mostrarAutor();
+        }
+    }
+}
+
+class Libro extends Publicacion {
+    String isbn;
+    Editorial editorial;
+
+    @Override
+    public void mostrarInfo() {
+        System.out.println("📘 Libro: " + titulo + " (" + anioPublicacion + ")");
+        System.out.println("ISBN: " + isbn);
+        if (editorial != null)
+            System.out.println("Editorial: " + editorial.nombre + ", " + editorial.pais);
+        mostrarAutores();
+    }
+}
+
+class Articulo extends Publicacion {
+    String revista;
+    int volumen;
+
+    @Override
+    public void mostrarInfo() {
+        System.out.println("📄 Artículo: " + titulo + " (" + anioPublicacion + ")");
+        System.out.println("Revista: " + revista + ", Volumen: " + volumen);
+        mostrarAutores();
+    }
+}
+
+class Tesis extends Publicacion {
+    String grado;
+    Asesor asesor;
+
+    @Override
+    public void mostrarInfo() {
+        System.out.println("📚 Tesis: " + titulo + " (" + anioPublicacion + ")");
+        System.out.println("Grado: " + grado);
+        if (asesor != null)
+            asesor.mostrarAutor();
+        mostrarAutores();
+    }
+}
+
+//clases autor,editorial y Asesor
+class Autor {
+    String nombre;
+    String correo;
+
+    public void mostrarAutor() {
+        System.out.println("Autor: " + nombre + " (" + correo + ")");
+    }
+}
+
+class Editorial {
+    String nombre;
+    String pais;
+}
+
+class Asesor extends Autor {
+    // hereda nombre y correo
+}
+//repositorio generico
+class Repositorio<T> {
+    ArrayList<T> lista = new ArrayList<>();
+
+    public void agregar(T item) {
+        lista.add(item);
+    }
+
+    public void eliminar(T item) {
+        lista.remove(item);
+    }
+
+    public void mostrarTodo() {
+        for (T item : lista) {
+            if (item instanceof Publicacion) {
+                ((Publicacion) item).mostrarInfo();
+                System.out.println("-----------");
+            }
+        }
+    }
+}
+//main
+public class Main {
+    public static void main(String[] args) {
+        // Crear autores
+        Autor autor1 = new Autor();
+        autor1.nombre = "Carlos Ruiz";
+        autor1.correo = "carlos@gmail.com";
+
+        Autor autor2 = new Autor();
+        autor2.nombre = "María Solis";
+        autor2.correo = "maria@gmail.com";
+
+        // Crear editorial
+        Editorial editorial1 = new Editorial();
+        editorial1.nombre = "Editorial Alfa";
+        editorial1.pais = "Bolivia";
+
+        // Crear publicaciones
+        Libro libro = new Libro();
+        libro.titulo = "Programación Genérica";
+        libro.anioPublicacion = 2022;
+        libro.isbn = "978-123456789";
+        libro.editorial = editorial1;
+        libro.agregarAutor(autor1);
+
+        Articulo articulo = new Articulo();
+        articulo.titulo = "Tecnologías Emergentes";
+        articulo.anioPublicacion = 2021;
+        articulo.revista = "Ciencia Hoy";
+        articulo.volumen = 12;
+        articulo.agregarAutor(autor2);
+
+        Tesis tesis = new Tesis();
+        tesis.titulo = "Análisis Algorítmico";
+        tesis.anioPublicacion = 2023;
+        tesis.grado = "Maestría";
+        Asesor asesor = new Asesor();
+        asesor.nombre = "Dr. Jorge";
+        asesor.correo = "jorge@uni.edu";
+        tesis.asesor = asesor;
+        tesis.agregarAutor(autor1);
+        tesis.agregarAutor(autor2);
+
+        // Crear repositorio y agregar publicaciones
+        Repositorio<Publicacion> repo = new Repositorio<>();
+        repo.agregar(libro);
+        repo.agregar(articulo);
+        repo.agregar(tesis);
+
+        // Mostrar toda la información
+        repo.mostrarTodo();
+    }
+}
+
