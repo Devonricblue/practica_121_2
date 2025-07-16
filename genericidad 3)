@@ -1,0 +1,63 @@
+//pseudocodigo
+Clase genérica Comparador<T> donde T extiende Comparable
+  Atributos:
+    objeto1: T
+    objeto2: T
+
+  Método esMayor() -> T:
+    si objeto1 > objeto2:
+      retornar objeto1
+    sino:
+      retornar objeto2
+
+  Método sonIguales() -> booleano:
+    retornar objeto1 == objeto2
+
+  Método ordenarArray(arr: T[]) -> T[]:
+    ordenar arr usando el operador de comparación
+    retornar arr ordenado
+
+//java
+import java.util.Arrays;
+
+public class Comparador<T extends Comparable<T>> {
+    T objeto1;
+    T objeto2;
+
+    public Comparador(T objeto1, T objeto2) {
+        this.objeto1 = objeto1;
+        this.objeto2 = objeto2;
+    }
+
+    public T esMayor() {
+        return (objeto1.compareTo(objeto2) > 0) ? objeto1 : objeto2;
+    }
+
+    public boolean sonIguales() {
+        return objeto1.compareTo(objeto2) == 0;
+    }
+
+    public T[] ordenarArray(T[] arr) {
+        Arrays.sort(arr);
+        return arr;
+    }
+}
+//main ejemplo de el anterior ejercicio 
+public class Main {
+    public static void main(String[] args) {
+        // Comparación de números
+        Comparador<Integer> compNum = new Comparador<>(42, 35);
+        System.out.println("Mayor número: " + compNum.esMayor());
+        System.out.println("¿Son iguales? " + compNum.sonIguales());
+
+        // Comparación de cadenas
+        Comparador<String> compStr = new Comparador<>("pera", "manzana");
+        System.out.println("Mayor cadena (alfabéticamente): " + compStr.esMayor());
+        System.out.println("¿Son iguales? " + compStr.sonIguales());
+
+        // Ordenar array
+        String[] frutas = {"limón", "manzana", "pera"};
+        String[] ordenadas = compStr.ordenarArray(frutas);
+        System.out.println("Frutas ordenadas: " + Arrays.toString(ordenadas));
+    }
+}
