@@ -1,0 +1,40 @@
+//pseudocodigo
+Función genérica maximoDeTres(e1: T, e2: T, e3: T) -> T
+  si e1 > e2 y e1 > e3:
+    retornar e1
+  si e2 > e3:
+    retornar e2
+  sino:
+    retornar e3
+
+Nota: Se requiere que T implemente alguna lógica de comparación
+//java comparable T
+public class Utilidades {
+    public static <T extends Comparable<T>> T maximoDeTres(T e1, T e2, T e3) {
+        T max = e1;
+        if (e2.compareTo(max) > 0) {
+            max = e2;
+        }
+        if (e3.compareTo(max) > 0) {
+            max = e3;
+        }
+        return max;
+    }
+}
+class Fruta implements Comparable<Fruta> {
+    String nombre;
+
+    public Fruta(String nombre) {
+        this.nombre = nombre;
+    }
+//main
+public class Main {
+    public static void main(String[] args) {
+        Fruta f1 = new Fruta("manzana");
+        Fruta f2 = new Fruta("pera");
+        Fruta f3 = new Fruta("limón");
+
+        Fruta max = Utilidades.maximoDeTres(f1, f2, f3);
+        System.out.println("La fruta con nombre más largo es: " + max);
+    }
+}
