@@ -1,0 +1,113 @@
+//pseudocodigo
+Clase Empleado:
+  nombre: Cadena
+  salario: Real
+
+  compararSalario(otro: Empleado) -> Cadena:
+    si salario > otro.salario:
+      retornar "Mayor"
+    sino si salario < otro.salario:
+      retornar "Menor"
+    sino:
+      retornar "Igual"
+
+Clase Departamento:
+  area: Cadena
+  presupuesto: Real
+  nroEmpleados: Entero
+  em[50]: Empleado
+
+  calcularSalarioTotalDepartamento() -> Real:
+    total = 0
+    para i desde 0 hasta nroEmpleados:
+      total = total + em[i].salario
+    retornar total
+
+  verificarEmpleado(nombre: Cadena) -> Booleano:
+    para i desde 0 hasta nroEmpleados:
+      si em[i].nombre == nombre:
+        retornar Verdadero
+    retornar Falso
+
+Clase Empresa:
+  nombre: Cadena
+  nroDeptos: Entero
+  depto[50]: Departamento
+
+//java
+class Empleado {
+    String nombre;
+    double salario;
+
+    String compararSalario(Empleado otro) {
+        if (this.salario > otro.salario) return "Mayor";
+        else if (this.salario < otro.salario) return "Menor";
+        else return "Igual";
+    }
+}
+
+class Departamento {
+    String area;
+    double presupuesto;
+    int nroEmpleados;
+    Empleado[] em = new Empleado[50];
+
+    double calcularSalarioTotalDepartamento() {
+        double total = 0;
+        for (int i = 0; i < nroEmpleados; i++) {
+            total += em[i].salario;
+        }
+        return total;
+    }
+
+    boolean verificarEmpleado(String nombre) {
+        for (int i = 0; i < nroEmpleados; i++) {
+            if (em[i].nombre.equals(nombre)) return true;
+        }
+        return false;
+    }
+}
+
+class Empresa {
+    String nombre;
+    int nroDeptos;
+    Departamento[] depto = new Departamento[50];
+}
+//Main
+public class Main {
+    public static void main(String[] args) {
+        // Crear empleados
+        Empleado e1 = new Empleado();
+        e1.nombre = "Carlos";
+        e1.salario = 3000;
+
+        Empleado e2 = new Empleado();
+        e2.nombre = "Ana";
+        e2.salario = 3500;
+
+        Empleado e3 = new Empleado();
+        e3.nombre = "Luis";
+        e3.salario = 3200;
+
+        // Crear departamento y agregar empleados
+        Departamento d1 = new Departamento();
+        d1.area = "Finanzas";
+        d1.presupuesto = 100000;
+        d1.nroEmpleados = 3;
+        d1.em[0] = e1;
+        d1.em[1] = e2;
+        d1.em[2] = e3;
+
+        // Crear empresa y agregar departamento
+        Empresa empresa = new Empresa();
+        empresa.nombre = "TechBol";
+        empresa.nroDeptos = 1;
+        empresa.depto[0] = d1;
+
+        // Prueba de métodos
+        System.out.println("Salario total del departamento: " + d1.calcularSalarioTotalDepartamento());
+        System.out.println("¿Existe el empleado Ana? " + d1.verificarEmpleado("Ana"));
+        System.out.println("¿Quién gana más entre Carlos y Ana? " + e1.compararSalario(e2));
+    }
+}
+
