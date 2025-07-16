@@ -1,0 +1,124 @@
+//Pseudocodigo
+Clase Nucleo:
+  velocidad: Real
+
+  compararVelocidad(otro: Nucleo) -> Cadena:
+    si velocidad > otro.velocidad:
+      retornar "Mayor"
+    sino si velocidad < otro.velocidad:
+      retornar "Menor"
+    sino:
+      retornar "Igual"
+
+Clase Cpu:
+  modelo: Cadena
+  nroNucleo: Entero
+  nuc[10]: Nucleo
+
+Clase Computadora:
+  marca: Cadena
+  nroCpu: Entero
+  cpu[10]: Cpu
+
+  calcularPotenciaTotal() -> Real:
+    total = 0
+    para cada CPU en cpu:
+      para cada Nucleo en CPU:
+        total += velocidad del núcleo
+    retornar total
+
+  esGamer() -> Booleano:
+    retornar calcularPotenciaTotal() >= 40.0  // Eje: si tiene tuviera al menos 40 GHz totales
+
+
+//java
+
+class Nucleo {
+    double velocidad; // GHz
+
+    String compararVelocidad(Nucleo otro) {
+        if (this.velocidad > otro.velocidad) return "Mayor";
+        else if (this.velocidad < otro.velocidad) return "Menor";
+        else return "Igual";
+    }
+}
+
+class Cpu {
+    String modelo;
+    int nroNucleo;
+    Nucleo[] nuc = new Nucleo[10];
+}
+
+class Computadora {
+    String marca;
+    int nroCpu;
+    Cpu[] cpu = new Cpu[10];
+
+    double calcularPotenciaTotal() {
+        double total = 0;
+        for (int i = 0; i < nroCpu; i++) {
+            Cpu actualCpu = cpu[i];
+            for (int j = 0; j < actualCpu.nroNucleo; j++) {
+                total += actualCpu.nuc[j].velocidad;
+            }
+        }
+        return total;
+    }
+
+    boolean esGamer() {
+        return calcularPotenciaTotal() >= 40.0;
+    }
+}
+//main
+public class Main {
+    public static void main(String[] args) {
+        //Crear núcleos
+        Nucleo n1 = new Nucleo();
+        n1.velocidad = 3.5;
+
+        Nucleo n2 = new Nucleo();
+        n2.velocidad = 4.0;
+
+        Nucleo n3 = new Nucleo();
+        n3.velocidad = 3.8;
+
+        Nucleo n4 = new Nucleo();
+        n4.velocidad = 4.2;
+
+  //Crear CPU y agregar núcleos
+        Cpu cpu1 = new Cpu();
+        cpu1.modelo = "Ryzen 7";
+        cpu1.nroNucleo = 2;
+        cpu1.nuc[0] = n1;
+        cpu1.nuc[1] = n2;
+
+        Cpu cpu2 = new Cpu();
+        cpu2.modelo = "Intel i9";
+        cpu2.nroNucleo = 2;
+        cpu2.nuc[0] = n3;
+        cpu2.nuc[1] = n4;
+
+  //Crear computadora y agregar CPUs
+        Computadora pc = new Computadora();
+        pc.marca = "Alienware";
+        pc.nroCpu = 2;
+        pc.cpu[0] = cpu1;
+        pc.cpu[1] = cpu2;
+
+   //Mostrar potencia total
+        double potencia = pc.calcularPotenciaTotal();
+        System.out.println("Potencia total de la computadora: " + potencia + " GHz");
+
+   // Verificar si es gamer
+        if (pc.esGamer()) {
+            System.out.println("Esta computadora es Gamer 🎮");
+        } else {
+            System.out.println("Esta computadora NO es Gamer ❌");
+        }
+
+   // Comparar velocidad entre núcleos
+        System.out.println("Comparación entre n1 y n2: " + n1.compararVelocidad(n2));
+        System.out.println("Comparación entre n3 y n4: " + n3.compararVelocidad(n4));
+    }
+}
+
